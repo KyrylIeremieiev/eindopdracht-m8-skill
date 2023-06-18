@@ -4,10 +4,47 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="main.js" defer></script>
+    <title>YubTub</title>
+    <link rel="stylesheet" href="./src/css/style.css">
+    <script src="https://kit.fontawesome.com/1a0fbdd901.js" crossorigin="anonymous"></script>
+    <!-- <script src="main.js" defer></script> -->
 </head>
 <body>
-    
+    <section class="mainVId">
+        <figure class="video">
+            <video src="./videos/forest.mp4" class="video__vid">
+            </video>
+            <figcaption class="video__panel">
+                <button class="video__button"><i class="fa-solid fa-play"></i></button>
+                <li class="wrapper">
+                    <ul class="wrapper">
+                        <button class="video__button"><i class="fa-solid fa-star"></i></button>
+                        <button class="video__button"><i class="fa-solid fa-arrow-right"></i></button>
+                    </ul>
+                </li>
+            </figcaption>
+        </figure>
+        <ul class="comments">
+            <li class="comments__comment">
+                <figure class="comments__user">
+                    <i class="fa-solid fa-user"></i>
+                </figure>
+                <p>It was lazy</p>
+            </li>
+            <li class="comments__comment">
+                <figure class="comments__user">
+                    <i class="fa-solid fa-user"></i>
+                </figure>
+                <p>It was lazy</p>
+            </li>
+            <li class="comments__comment">
+                <figure class="comments__user">
+                    <i class="fa-solid fa-user"></i>
+                </figure>
+                <p>It was lazy</p>
+            </li>
+        </ul>
+        <textarea class="comments__input" name="areaToComment" id="areaToComment" cols="30" rows="10">it was baller</textarea>
+    </section>
 </body>
 </html>

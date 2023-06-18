@@ -3,18 +3,18 @@ class App{
  data = [
  {
     id: 0,
-    video: "video--1.mp4",
+    video: "forest.mp4",
     link: 1
 
  },
 {
     id:1,
-    video: "video--2.mp4",
+    video: "sea.mp4",
     link: 2
 },
 {
     id:2,
-    video: "video--3.mp4",
+    video: "waterfall.mp4",
     link: 0
 },
 
@@ -59,13 +59,39 @@ class Yubtub{
         this.app = app;
         this.renderer = new Renderer();
         this.aside = new Aside(this, data);
+        this.main = new Main(this, data)
     }
+
+    
 }
 
 class Renderer{
     render(whereToRender, whatToRender){
         document.querySelector(whereToRender).appendChild(whatToRender);
     }
+}
+
+class Main{
+    constructor(data, currentVideo){
+        this.video = new Video(currentVideo);
+        this.comments = new Comments();
+    }
+}
+
+class Video{
+    constructor(currentVideo){
+        this.currentVideo = currentVideo;
+    }
+}
+
+class Comments{
+    constructor(){
+        this.comment = new Comment();
+    }
+}
+
+class Comment{
+    
 }
 
 class Aside{
