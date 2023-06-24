@@ -4,7 +4,7 @@ class App{
  constructor(){
     this.api = new Api();
     this.api.getData().then(()=>{
-        this.switcher = new Switcher();
+        this.switcher = new Switcher(this);
         this.switch(0);
     });
     
@@ -16,7 +16,8 @@ class App{
 }
 
 class Switcher{
-    constructor(){
+    constructor(App){
+        this.app = App
         this.cleaner = new Cleaner();
     }
 
@@ -38,7 +39,7 @@ class Yubtub{
         this.renderer = new Renderer();
         this.main = new Main(data, index, this);
         this.header = new Header(data);
-        this.aside = new Aside(data);
+        this.aside = new Aside(data, index, this);
     }
 
 }
@@ -86,6 +87,8 @@ class Inupt{
     createHtml(){
         this.textArea = document.createElement("textarea");
         this.textArea.classList = "comments__input";
+        this.textArea.placeholder = "Your Comment:";
+        this.textArea.style.fontSize = "2rem";
         this.textArea.cols = 30;
         this.textArea.rows = 10;
 
@@ -100,6 +103,7 @@ class Inupt{
 
     post = ()=>{
         this.comment = new Comment(this.textArea.value, this.comments)
+        this.textArea.value = "";
     }
 }
 
@@ -204,7 +208,41 @@ class Video{
     }
 }
 
+class Aside{
+    constructor(data, index, Yub){
+        this.Yub = Yub;
+        this.htmlElement = document.createElement("aside");
+        this.htmlElement.classList = "next";
+        this.nextVid = new NextVid(data, index, this)
+        Yub.renderer.render("body", this.htmlElement);
+    }
+}
 
+class NextVid{
+    constructor(data, index, aside){
+        this.data = data;
+        this.index = index;
+        this.aside = aside;
+        this.createHtml();
+        this.createOnclick();
+    }
+
+
+    createHtml(){
+        this.nextVideo = document.createElement("video");
+        this.nextVideo.classList = "next__vid"
+        this.nextVideo.src = this.data[this.data[this.index].nextInArr].url;
+        this.aside.htmlElement.appendChild(this.nextVideo);
+    }
+
+    createOnclick(){
+        this.nextVideo.onclick = this.onClick;
+    }
+
+    onClick = () =>{
+        this.aside.Yub.switcher.app.switch(this.data[this.index].nextInArr)
+    }
+}
 
 class Header{
     constructor(data){
