@@ -46,13 +46,94 @@ class Yubtub{
 class Main{
     constructor(data, index, Yub){
         this.data = data;
+        this.Yub = Yub;
         this.htmlElement = document.createElement("section");
         this.htmlElement.classList = "mainVId"
         this.htmlElement.id = "text"
         this.video = new Video(data, index);
-
         this.htmlElement.appendChild(this.video.htmlElement);
-        Yub.renderer.render("body", this.htmlElement);
+        this.comments = new Comments(data, index, this);
+
+
+        this.Yub.renderer.render("body", this.htmlElement);
+    }
+}
+
+class Comments{
+    constructor(data, index, main){
+        this.data = data;
+        this.index = index;
+        this.main = main;
+        this.htmlElement = document.createElement("ul");
+        this.htmlElement.classList = "comments";
+        this.comment = new Comment(data[index].comment, this);
+        this.main.htmlElement.appendChild(this.htmlElement);
+        this.inupt = new Inupt(this);
+        
+    }
+
+    render(whatToRender){
+        this.htmlElement.appendChild(whatToRender);
+    }
+}
+
+class Inupt{
+    constructor(comments){
+        this.comments = comments;
+        this.createHtml()
+    }
+
+    createHtml(){
+        this.textArea = document.createElement("textarea");
+        this.textArea.classList = "comments__input";
+        this.textArea.cols = 30;
+        this.textArea.rows = 10;
+
+        this.postBtn = document.createElement("button");
+        this.postBtn.classList = "mainVid__btn";
+        this.postBtn.innerText = "POST!";
+        this.postBtn.onclick = this.post;
+
+        this.comments.main.htmlElement.appendChild(this.textArea);
+        this.comments.main.htmlElement.appendChild(this.postBtn);
+    }
+
+    post = ()=>{
+        this.comment = new Comment(this.textArea.value, this.comments)
+    }
+}
+
+class Comment{
+    constructor(innerTxt, comments){
+        this.comments = comments;
+        this.createHtml(innerTxt);
+    }
+
+    createHtml(innerTxt){
+        /* 
+        <li class="comments__comment">
+           <figure class="comments__user">
+                <i class="fa-solid fa-user"></i>
+            </figure>
+            <p>It was lazy</p>
+        </li> */
+
+        this.Iframe = document.createElement("i");
+        this.Iframe.classList = "fa-solid fa-user";
+
+        this.user = document.createElement("figure");
+        this.user.classList = "comments__user";
+        this.user.appendChild(this.Iframe);
+
+        this.p = document.createElement("p");
+        this.p.innerText = innerTxt;
+        
+        this.li = document.createElement("li");
+        this.li.classList = "comments__comment";
+        this.li.appendChild(this.user);
+        this.li.appendChild(this.p);
+
+        this.comments.render(this.li)
     }
 }
 
@@ -114,12 +195,16 @@ class Video{
     pause = () =>{
         if(this.vid.paused == true){
             this.vid.play();
+            this.Iframe.classList = "fa-solid fa-pause";
         }
         else{
             this.vid.pause()
+            this.Iframe.classList = "fa-solid fa-play";
         }
     }
 }
+
+
 
 class Header{
     constructor(data){
