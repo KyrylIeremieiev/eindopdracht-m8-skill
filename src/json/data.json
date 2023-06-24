@@ -1,0 +1,14 @@
+{
+    "videos":[
+        {
+            "url":"./videos/sea.mp4",
+            "comment":"blue",
+            "nextInArr":1
+        },
+        {
+            "url":"./videos/forest.mp4",
+            "comment":"green",
+            "nextInArr":0
+        }
+    ]
+}

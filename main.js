@@ -1,48 +1,140 @@
 class App{
  switcher;
- data = [
- {
-    id: 0,
-    video: "forest.mp4",
-    link: 1
-
- },
-{
-    id:1,
-    video: "sea.mp4",
-    link: 2
-},
-{
-    id:2,
-    video: "waterfall.mp4",
-    link: 0
-},
-
-]
 
  constructor(){
-    this.switcher = new Switcher(this, this.data);
+    this.api = new Api();
+    this.api.getData().then(()=>{
+        this.switcher = new Switcher();
+        this.switch(0);
+    });
+    
+ }
+
+ switch(index){
+    this.switcher.switch(this.api.data.videos, this, index)
  }
 }
 
 class Switcher{
- yubtub;
- cleaner;
- app;
- default = 0;
+    constructor(){
+        this.cleaner = new Cleaner();
+    }
 
- constructor(app,data){
-    this.app = app;
-    this.data = data;
-    this.yubtub = new Yubtub(this.app, data[this.default]);
-    this.cleaner = new Cleaner();
- }
+    switch(data, app, index){
+        this.clean("body");
+        this.yubtub = new Yubtub(data, app, index, this);
+    }
 
- switch(link){
-    this.cleaner.clean("body");
-    this.yubtub = new Yubtub(this.app,  this.data[link]);
+    clean(whereToClean){
+        this.cleaner.clean(whereToClean);
+    }
+}
 
- }
+class Yubtub{
+    constructor(data, app, index, switcher){
+        this.data = data;
+        this.app = app;
+        this.switcher = switcher;
+        this.renderer = new Renderer();
+        this.main = new Main(data, index, this);
+        this.header = new Header(data);
+        this.aside = new Aside(data);
+    }
+
+}
+
+class Main{
+    constructor(data, index, Yub){
+        this.data = data;
+        this.htmlElement = document.createElement("section");
+        this.htmlElement.classList = "mainVId"
+        this.htmlElement.id = "text"
+        this.video = new Video(data, index);
+
+        this.htmlElement.appendChild(this.video.htmlElement);
+        Yub.renderer.render("body", this.htmlElement);
+    }
+}
+
+class Video{
+    constructor(data, index){
+        this.data = data;
+        this.index = index;
+        this.createHtml();
+        this.vid.play();
+        this.addPanelOption();
+    }
+
+    createHtml(){
+        this.WrappedIframeOne = document.createElement("i");
+        this.WrappedIframeOne.classList = "fa-solid fa-star";
+        this.WrappedIframeTwo = document.createElement("i");
+        this.WrappedIframeTwo.classList = "fa-solid fa-arrow-right";
+
+        this.WrappedBtnOne = document.createElement("btn");
+        this.WrappedBtnOne.classList = "video__button";
+        this.WrappedBtnTwo = document.createElement("btn");
+        this.WrappedBtnTwo.classList = "video__button";
+
+        this.WrappedBtnOne.appendChild(this.WrappedIframeOne);
+        this.WrappedBtnTwo.appendChild(this.WrappedIframeTwo);
+        
+        this.wrapper = document.createElement("section");
+        this.wrapper.classList = "wrapper";
+        this.wrapper.appendChild(this.WrappedBtnOne);
+        this.wrapper.appendChild(this.WrappedBtnTwo);
+
+        this.Iframe = document.createElement("i");
+        this.Iframe.classList = "fa-solid fa-play";
+
+        this.btn = document.createElement("btn");
+        this.btn.classList = "video__button";
+        this.btn.appendChild(this.Iframe);
+
+        this.panel = document.createElement("figcaption");
+        this.panel.classList = "video__panel";
+        this.panel.appendChild(this.btn);
+        this.panel.appendChild(this.wrapper);
+
+        this.vid = document.createElement("video");
+        this.vid.classList = "video__vid";
+        this.vid.src = this.data[this.index].url;
+
+        this.htmlElement = document.createElement("figure");
+        this.htmlElement.classList = "video";
+
+        this.htmlElement.appendChild(this.vid);
+        this.htmlElement.appendChild(this.panel);
+    }
+
+    addPanelOption(){
+        this.btn.onclick = this.pause;
+    }
+
+    pause = () =>{
+        if(this.vid.paused == true){
+            this.vid.play();
+        }
+        else{
+            this.vid.pause()
+        }
+    }
+}
+
+class Header{
+    constructor(data){
+        this.data = data;
+    }
+}
+
+class Api{
+    async getData(){
+        await fetch("./src/json/data.json").then(response =>{
+            return response.json();
+            }).then(data =>{
+                this.data = data;
+            });
+    }
 }
 
 class Cleaner{
@@ -51,80 +143,9 @@ class Cleaner{
     }
 }
 
-class Yubtub{
-    aside;
-    renderer;
-    app;
-    constructor(app,data){
-        this.app = app;
-        this.renderer = new Renderer();
-        this.aside = new Aside(this, data);
-        this.main = new Main(this, data)
-    }
-
-    
-}
-
 class Renderer{
     render(whereToRender, whatToRender){
         document.querySelector(whereToRender).appendChild(whatToRender);
     }
 }
-
-class Main{
-    constructor(data, currentVideo){
-        this.video = new Video(currentVideo);
-        this.comments = new Comments();
-    }
-}
-
-class Video{
-    constructor(currentVideo){
-        this.currentVideo = currentVideo;
-    }
-}
-
-class Comments{
-    constructor(){
-        this.comment = new Comment();
-    }
-}
-
-class Comment{
-    
-}
-
-class Aside{
-    yubtub;
-    nextVideo;
-    htmlElement;
-
-    constructor(yubtub,data){
-        this.yubtub = yubtub;
-        this.htmlElement = document.createElement("aside");
-        this.yubtub.renderer.render("body",this.htmlElement);
-        this.nextVideo = new NextVideo(this,data);
-
-    }
-}
-
-class NextVideo{
-  aside;
-  htmlElement;
-  constructor(aside,data){
-    this.aside = aside;
-    this.data = data;
-    this.htmlElement = document.createElement("video");
-    this.htmlElement.src = "./videos/" + data.video;
-    this.aside.yubtub.renderer.render("aside", this.htmlElement);
-    this.htmlElement.onclick = this.videoClicked;
-  }
-
-  videoClicked = () => {
-    this.aside.yubtub.app.switcher.switch(this.data.link);
-  }
-
-}
-
 const app = new App();
-console.log(app);
