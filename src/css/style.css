@@ -19,6 +19,7 @@ li {
 
 body {
   background: rgb(145, 70, 255);
+  display: flex;
 }
 
 .mainVId {
@@ -56,10 +57,14 @@ body {
   color: white;
   width: 6rem;
   border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .video__button:hover {
   background: white;
   color: rgb(145, 70, 255);
+  cursor: pointer;
 }
 
 .comments {
@@ -93,6 +98,22 @@ body {
   resize: none;
   border-radius: 1rem;
   padding: 2rem;
+}
+
+.next {
+  width: 30vw;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.next__vid {
+  width: 100%;
+  border-radius: 2rem;
+  border: 0.2rem solid white;
+}
+.next__vid:hover {
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=style.css.map */

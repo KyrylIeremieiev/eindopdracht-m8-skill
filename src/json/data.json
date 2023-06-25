@@ -1,0 +1,14 @@
+{
+    "videos":[
+        {
+            "url":"./videos/sea.mp4",
+            "comment":"I want you to blow up... THE OCIAN - mr.Torgue",
+            "nextInArr":1
+        },
+        {
+            "url":"./videos/forest.mp4",
+            "comment":"green",
+            "nextInArr":0
+        }
+    ]
+}

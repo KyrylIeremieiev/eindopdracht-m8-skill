@@ -34,10 +34,14 @@
         color: white;
         width: 6rem;
         border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         &:hover{
             background: white;
             color: rgba(145, 70, 255);
+            cursor: pointer;
         }
     }
 
