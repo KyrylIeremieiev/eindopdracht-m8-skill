@@ -82,4 +82,19 @@
         border-radius: 1rem;
         padding: 2rem;
     }
+
+}
+
+.mainVid__btn{
+    border: 0.2rem solid white;
+    height: 5rem;
+    border-radius: 1rem;
+    background: white;
+    color: rgba(145, 70, 255);
+
+    &:hover{
+        cursor: pointer;
+        color: white;
+        background: rgba(145, 70, 255);
+    }
 }

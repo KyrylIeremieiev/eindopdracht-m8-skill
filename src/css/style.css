@@ -100,6 +100,19 @@ body {
   padding: 2rem;
 }
 
+.mainVid__btn {
+  border: 0.2rem solid white;
+  height: 5rem;
+  border-radius: 1rem;
+  background: white;
+  color: rgb(145, 70, 255);
+}
+.mainVid__btn:hover {
+  cursor: pointer;
+  color: white;
+  background: rgb(145, 70, 255);
+}
+
 .next {
   width: 30vw;
   padding: 4rem;
@@ -114,6 +127,18 @@ body {
 }
 .next__vid:hover {
   cursor: pointer;
+}
+
+@media screen and (max-width: 40rem) {
+  body {
+    display: block;
+  }
+  .mainVId {
+    width: 100vw;
+  }
+  .next {
+    width: 100vw;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */
